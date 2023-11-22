@@ -28,11 +28,6 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textviewTitle;
-        final TextView textViewDesc = binding.textviewDescription;
-        final TextView textViewLO = binding.textviewLo;
-        homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
-
         return root;
     }
 
