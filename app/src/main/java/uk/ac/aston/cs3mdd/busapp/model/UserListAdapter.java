@@ -1,6 +1,7 @@
 package uk.ac.aston.cs3mdd.busapp.model;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
@@ -15,9 +17,10 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import uk.ac.aston.cs3mdd.busapp.R;
+import uk.ac.aston.cs3mdd.busapp.ui.notifications.NotificationsFragmentDirections;
 
 public class UserListAdapter extends
-        RecyclerView.Adapter<UserListAdapter.UserViewHolder> {
+        RecyclerView.Adapter<UserListAdapter.UserViewHolder>  {
 
     private List<User> mUserList;
     private final LayoutInflater mInflater;
@@ -58,7 +61,8 @@ public class UserListAdapter extends
         notifyDataSetChanged();
     }
 
-    class UserViewHolder extends RecyclerView.ViewHolder {
+
+    class UserViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public final TextView usernameView;
         final UserListAdapter mAdapter;
         public User user;
@@ -67,9 +71,18 @@ public class UserListAdapter extends
 
         public UserViewHolder(@NonNull View itemView, UserListAdapter adapter) {
             super(itemView);
+            itemView.setOnClickListener(this);
             usernameView = itemView.findViewById(R.id.username);
             this.mAdapter = adapter;
             this.userImage = itemView.findViewById(R.id.userimage);
+        }
+
+        @Override
+        public void onClick(View view) {
+            NotificationsFragmentDirections.ActionNavigationNotificationsToSecondFragment action =
+                    NotificationsFragmentDirections.actionNavigationNotificationsToSecondFragment(user);
+            Navigation.findNavController(view)
+                    .navigate(action);
         }
     }
 }

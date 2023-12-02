@@ -10,6 +10,15 @@ public class User implements Serializable {
     private String nat;
     private Name name;
     private Picture picture;
+    private Location location;
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
 
     public String getGender() {
         return gender;

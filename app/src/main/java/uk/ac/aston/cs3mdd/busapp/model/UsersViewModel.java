@@ -53,9 +53,9 @@ public class UsersViewModel extends ViewModel {
     public void addAll(UserList list) {
         allUsers.getValue().addAll(list.getResults());
         allUsers.setValue(allUsers.getValue());
-        Log.i("MDI", "Printing " + allUsers.getValue().size() + " Users");
+//        Log.i("MDI", "Printing " + allUsers.getValue().size() + " Users");
         for (User user : allUsers.getValue()) {
-            Log.i("MDI", user.toString());
+//            Log.i("MDI", user.toString());
         }
     }
 }
