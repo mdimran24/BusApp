@@ -1,16 +1,17 @@
 package uk.ac.aston.cs3mdd.busapp.service;
 
 import retrofit2.Call;
-import uk.ac.aston.cs3mdd.busapp.model.StopPoint.StopPointResponse;
+import uk.ac.aston.cs3mdd.busapp.model.StopPoint.StopPointsResponse;
+import uk.ac.aston.cs3mdd.busapp.model.StopPoint.StopPointsResponseCall;
 
 public class StopRepository {
-    private LocalStopPoint localStopPointService;
+    private TFWM tfwmService;
 
-    public StopRepository(LocalStopPoint stopService){
-        this.localStopPointService = stopService;
+    public StopRepository(TFWM stopService){
+        this.tfwmService = stopService;
     }
 
-    public Call<StopPointResponse> getListOfStops(double lat, double lon, String stopType, String appId, String appKey, String format){
-        return localStopPointService.getStops(lon, lat, stopType, appId, appKey, format);
+    public Call<StopPointsResponseCall> getListOfStops(double lat, double lon, String stopType, String appId, String appKey, String format){
+        return tfwmService.getStops(lon, lat, stopType, appId, appKey, format);
     }
 }

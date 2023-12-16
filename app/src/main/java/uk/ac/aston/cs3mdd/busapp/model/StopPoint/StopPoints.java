@@ -1,16 +1,28 @@
 package uk.ac.aston.cs3mdd.busapp.model.StopPoint;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StopPoints {
-    private ArrayList<StopPointCall> StopPoint;
+public class StopPoints implements Serializable {
 
-    public ArrayList<StopPointCall> getStopPoint() {
-        return StopPoint;
+    @SerializedName("StopPoint")
+    @Expose
+    private List<StopPoint> stopPoint;
+
+    public List<StopPoint> getStopPoint() {
+        return stopPoint;
     }
 
-    public void setStopPoint(ArrayList<StopPointCall> stopPoint) {
-        StopPoint = stopPoint;
+    public void setStopPoint(List<StopPoint> stopPoint) {
+        this.stopPoint = stopPoint;
+    }
+
+    @Override
+    public String toString() {
+        return(getStopPoint().toString());
     }
 }

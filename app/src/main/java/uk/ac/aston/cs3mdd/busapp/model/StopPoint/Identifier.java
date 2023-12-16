@@ -1,52 +1,74 @@
 package uk.ac.aston.cs3mdd.busapp.model.StopPoint;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
-import java.util.List;
 
 public class Identifier implements Serializable {
-    private String Id;
-    private String Name;
-    private String Type;
-    private String Uri;
-    private List<Operator> Operators;
+
+
+    @SerializedName("Id")
+    @Expose
+    private String id;
+    @SerializedName("Name")
+    @Expose
+    private String name;
+    @SerializedName("Type")
+    @Expose
+    private String type;
+    @SerializedName("Uri")
+    @Expose
+    private String uri;
+    @SerializedName("Operators")
+    @Expose
+    private Operators operators;
 
     public String getId() {
-        return Id;
+        return id;
     }
 
     public void setId(String id) {
-        Id = id;
+        this.id = id;
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public void setName(String name) {
-        Name = name;
+        this.name = name;
     }
 
     public String getType() {
-        return Type;
+        return type;
     }
 
     public void setType(String type) {
-        Type = type;
+        this.type = type;
     }
 
     public String getUri() {
-        return Uri;
+        return uri;
     }
 
     public void setUri(String uri) {
-        Uri = uri;
+        this.uri = uri;
     }
 
-    public List<Operator> getOperators() {
-        return Operators;
+    public Operators getOperators() {
+        return operators;
     }
 
-    public void setOperators(List<Operator> operators) {
-        Operators = operators;
+    public void setOperators(Operators operators) {
+        this.operators = operators;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append( getName());
+//        sb.append("Operator: " + getOperators().getOperator().toString());
+        return sb.toString();
     }
 }

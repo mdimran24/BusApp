@@ -1,33 +1,48 @@
 package uk.ac.aston.cs3mdd.busapp.model.StopPoint;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 public class Operator implements Serializable {
-    private String Name;
-    private String Code;
-    private String Id;
+
+    @SerializedName("Name")
+    @Expose
+    private String name;
+    @SerializedName("Code")
+    @Expose
+    private String code;
+    @SerializedName("Id")
+    @Expose
+    private String id;
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public void setName(String name) {
-        Name = name;
+        this.name = name;
     }
 
     public String getCode() {
-        return Code;
+        return code;
     }
 
     public void setCode(String code) {
-        Code = code;
+        this.code = code;
     }
 
     public String getId() {
-        return Id;
+        return id;
     }
 
     public void setId(String id) {
-        Id = id;
+        this.id = id;
+    }
+
+    @Override
+    public String toString(){
+        return getName();
     }
 }
