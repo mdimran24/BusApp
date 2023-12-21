@@ -44,12 +44,14 @@ import uk.ac.aston.cs3mdd.busapp.service.TFWM;
 
 public class HomeFragment extends Fragment {
 
-    private LocationViewModel model;
+    private LocationViewModel locModel;
     private FragmentHomeBinding binding;
     private StopPointViewModel viewModel;
     private RecyclerView mRecyclerView;
     private StopListAdapter mAdapter;
     private List<StopPoint> stopsList;
+
+
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         viewModel = new ViewModelProvider(requireActivity()).get(StopPointViewModel.class);
@@ -61,17 +63,22 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        locModel = new ViewModelProvider(requireActivity()).get(LocationViewModel.class);
+
+
         final Observer<StopPointsResponseCall> stopListObserver = new Observer<StopPointsResponseCall>() {
             @Override
             public void onChanged(@Nullable final StopPointsResponseCall stopPointsResponseCall) {
-                Toast.makeText(getContext(), "We got a list of " + stopPointsResponseCall.getStopPointsResponse().getTotal() + " stops", Toast.LENGTH_LONG).show();
-                stopsList.addAll(stopPointsResponseCall.getStopPointsResponse().getStopPoints().getStopPoint());
-                stopsList.removeIf(spr -> (spr.getLines().getIdentifier().isEmpty()));
-                mAdapter.updateData(stopsList);
+
+//                Toast.makeText(getContext(), "We got a list of " + stopPointsResponseCall.getStopPointsResponse().getTotal() + " stops", Toast.LENGTH_LONG).show();
+                if(stopPointsResponseCall.getStopPointsResponse() != null) {
+                    stopsList.addAll(stopPointsResponseCall.getStopPointsResponse().getStopPoints().getStopPoint());
+                    stopsList.removeIf(spr -> (spr.getLines().getIdentifier().isEmpty()));
+                    mAdapter.updateData(stopsList);
+                }
 
 
             }
-
         };
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://api.tfwm.org.uk/")
@@ -81,16 +88,18 @@ public class HomeFragment extends Fragment {
         TFWM service = retrofit.create(TFWM.class);
         // Get a handle to the RecyclerView.
         mRecyclerView = view.findViewById(R.id.recyclerview);
-// Create an adapter and supply the data to be displayed.
-//        Log.i("MDI", viewModel.getAllStops().getValue().toString());
+        // Create an adapter and supply the data to be displayed.
         mAdapter = new StopListAdapter(getContext(), stopsList);
-
-// Connect the adapter with the RecyclerView.
+        // Connect the adapter with the RecyclerView.
         mRecyclerView.setAdapter(mAdapter);
-// Give the RecyclerView a default layout manager.
+        // Give the RecyclerView a default layout manager.
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        viewModel.requestStops(new StopRepository(service));
-
+        locModel.getCurrentLocation().observe(getViewLifecycleOwner(), loc -> {
+                    if (loc != null) {
+                        viewModel.requestStops(new StopRepository(service), loc);
+                        Log.i("MDI Location", loc.toString());
+                    }
+                });
         viewModel.getAllStops().observe(getViewLifecycleOwner(), stopListObserver);
     }
 

@@ -5,4 +5,6 @@
     <string name="title_notifications">Saved Stops</string>
     <string name="text_home_frag">Nearby Stops</string>
     <string name="previous">Previous</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -86,7 +86,7 @@ public class NotificationsFragment extends Fragment {
         mRecyclerView.setAdapter(mAdapter);
 // Give the RecyclerView a default layout manager.
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        viewModel.requestStops(new StopRepository(service));
+//        viewModel.requestStops(new StopRepository(service), );
 
         viewModel.getAllStops().observe(getViewLifecycleOwner(), stopListObserver);
 

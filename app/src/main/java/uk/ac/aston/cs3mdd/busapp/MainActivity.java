@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -152,8 +153,8 @@ public class MainActivity extends AppCompatActivity {
                         if (location != null) {
                             // Logic to handle location object
                             model.setCurrentLocation(location);
-                            Log.i(TAG, "We got a location: (" + location.getLatitude() +
-                                    ", " + location.getLongitude() + ")");
+//                            Log.i(TAG, "We got a location: (" + location.getLatitude() +
+//                                    ", " + location.getLongitude() + ")");
                         } else {
                             Log.i(TAG, "We failed to get a last location");
                         }

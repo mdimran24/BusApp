@@ -1,8 +1,8 @@
-package uk.ac.aston.cs3mdd.busapp.model;
+package uk.ac.aston.cs3mdd.busapp.model.location;
 
 import java.io.Serializable;
 
-public class Coordinates implements Serializable {
+public class Coordinates  implements Serializable {
     private double latitude;
     private double longitude;
 

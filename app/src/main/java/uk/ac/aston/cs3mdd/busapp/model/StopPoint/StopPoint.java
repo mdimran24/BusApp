@@ -160,4 +160,14 @@ public class StopPoint implements Serializable {
         sb.append(getLines().getIdentifier().toString());
         return sb.toString();
     }
+
+
+    public String toStringBuses() {
+        String buses = "";
+        for(int i = 0; i<getLines().getIdentifier().size(); i++){
+            buses += getLines().getIdentifier().get(i).toString() + ", ";
+        }
+        return buses;
+    }
+
 }

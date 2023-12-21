@@ -10,33 +10,30 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import uk.ac.aston.cs3mdd.busapp.MainActivity;
 import uk.ac.aston.cs3mdd.busapp.R;
-import uk.ac.aston.cs3mdd.busapp.model.StopPoint.Identifier;
 import uk.ac.aston.cs3mdd.busapp.model.StopPoint.StopPoint;
-import uk.ac.aston.cs3mdd.busapp.model.StopPoint.StopPointsResponse;
-import uk.ac.aston.cs3mdd.busapp.model.StopPoint.StopPointsResponseCall;
+import uk.ac.aston.cs3mdd.busapp.ui.home.HomeFragmentDirections;
 
 
-public class StopListAdapter extends
-        RecyclerView.Adapter<StopListAdapter.StopViewHolder> {
+public class StopListAdapter extends RecyclerView.Adapter<StopListAdapter.StopViewHolder> {
 
     private List<StopPoint> mStopList;
     private final LayoutInflater mInflater;
 
-    private Context context;
+    private final Context context;
 
     public StopListAdapter(Context context, List<StopPoint> stopList) {
         mInflater = LayoutInflater.from(context);
         this.context = context;
-        if(stopList != null) {
+        if (stopList != null) {
             this.mStopList = stopList;
         }
     }
@@ -54,50 +51,20 @@ public class StopListAdapter extends
         Geocoder geocoder;
         geocoder = new Geocoder(context, Locale.getDefault());
         StopPoint stopPoint = mStopList.get(position);
+        String buses = stopPoint.toStringBuses();
         holder.stopPoint = stopPoint;
-        List<String> busNumbers = new ArrayList<>();
-        for(int i = 0; i<stopPoint.getLines().getIdentifier().size(); i++){
-            busNumbers.add(stopPoint.getLines().getIdentifier().get(i).toString());
-        }
+
         List<Address> addresses;
-        String buses= "";
         try {
             addresses = geocoder.getFromLocation(stopPoint.getLat(), stopPoint.getLon(), 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
             String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
 
-            String addressFormatted = address;
-            for(String s : busNumbers){
-                buses += s + ", " ;
-            }
-            holder.usernameView.setText(buses + "\n" + addressFormatted);
+            holder.usernameView.setText("Bus Lines: " + "\n" + address);
 
 
         } catch (IOException e) {
-            Log.e(MainActivity.TAG, "Error getting address\n"+e.getMessage());
+            Log.e(MainActivity.TAG, "Error getting address\n" + e.getMessage());
         }
-
-
-//        Log.i("MDI", mStopList.toString());
-//        StopPoint stopPoint = mStopList.get(position);
-//        holder.stopPoint = stopPoint;
-//        Log.i("MDIB", stopPoint.getLines().getIdentifier().toString());
-//        String displayName = "";
-//        String busNumber = "";
-//            if(stopPoint.getLines().getIdentifier().size() > 0) {
-//                for (int i = 0; i < stopPoint.getLines().getIdentifier().size(); i++){
-//                    busNumber = stopPoint.getLines().getIdentifier().get(i).getName();
-//                    if(i > 0) {
-//                         busNumber = stopPoint.getLines().getIdentifier().get(i).getName() + "/ " + stopPoint.getLines().getIdentifier().get(i-1).getName();
-//
-//                    }
-//                }
-//                displayName = busNumber;
-////                String busNumber = stopPoint.getLines().getIdentifier().get(0).getName().toString();
-//
-//                String name = stopPoint.getCommonName();
-//                displayName = displayName + " " + name + " " + stopPoint.getLocality();
-//                holder.usernameView.setText(displayName);
-//            }
 
 
     }
@@ -108,21 +75,28 @@ public class StopListAdapter extends
     }
 
 
-
-    public void updateData( List<StopPoint> list) {
+    public void updateData(List<StopPoint> list) {
         this.mStopList = list;
         notifyDataSetChanged();
     }
 
-    class StopViewHolder extends RecyclerView.ViewHolder {
+    class StopViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public final TextView usernameView;
         final StopListAdapter mAdapter;
         public StopPoint stopPoint;
 
         public StopViewHolder(@NonNull View itemView, StopListAdapter adapter) {
             super(itemView);
+            itemView.setOnClickListener(this);
             usernameView = itemView.findViewById(R.id.username);
             this.mAdapter = adapter;
+        }
+
+        @Override
+        public void onClick(View view) {
+            HomeFragmentDirections.ActionNavigationHomeToStopPointFragment action =
+                    HomeFragmentDirections.actionNavigationHomeToStopPointFragment(stopPoint);
+            Navigation.findNavController(view).navigate(action);
         }
     }
 }

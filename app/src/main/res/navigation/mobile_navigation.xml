@@ -9,7 +9,11 @@
         android:id="@+id/navigation_home"
         android:name="uk.ac.aston.cs3mdd.busapp.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home"/>
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_navigation_home_to_stopPointFragment"
+            app:destination="@id/stopPointFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_search"
@@ -22,4 +26,16 @@
         android:name="uk.ac.aston.cs3mdd.busapp.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
+    <fragment
+        android:id="@+id/stopPointFragment"
+        android:name="uk.ac.aston.cs3mdd.busapp.ui.StopPointFragment"
+        android:label="Stop Info"
+        tools:layout="@layout/fragment_stop_point" >
+        <action
+            android:id="@+id/action_stopPointFragment_to_navigation_home"
+            app:destination="@id/navigation_home" />
+        <argument
+            android:name="stopPoint"
+            app:argType="uk.ac.aston.cs3mdd.busapp.model.StopPoint.StopPoint" />
+    </fragment>
 </navigation>
