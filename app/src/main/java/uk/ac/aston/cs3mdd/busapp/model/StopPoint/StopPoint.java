@@ -157,15 +157,17 @@ public class StopPoint implements Serializable {
         sb.append(", ");
         sb.append("Location: " + getLocality());
         sb.append(", ");
-        sb.append(getLines().getIdentifier().toString());
+//        sb.append(getLines().getIdentifier().toString());
         return sb.toString();
     }
 
 
     public String toStringBuses() {
         String buses = "";
-        for(int i = 0; i<getLines().getIdentifier().size(); i++){
-            buses += getLines().getIdentifier().get(i).toString() + ", ";
+        if(getLines() != null) {
+            for (int i = 0; i < getLines().getIdentifier().size(); i++) {
+                buses += getLines().getIdentifier().get(i).toString() + ", ";
+            }
         }
         return buses;
     }

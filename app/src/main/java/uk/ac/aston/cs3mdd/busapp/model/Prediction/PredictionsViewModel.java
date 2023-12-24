@@ -35,6 +35,7 @@ public class PredictionsViewModel extends ViewModel {
 
     public void requestPredictions(PredictionRepository predictionRepository, String id) {
         allPredictions = new MutableLiveData<>();
+//        Log.i("MDI Prediction", id);
             Call<PredictionsCall> predictionCall = predictionRepository.getListOfPredictions(id,"b9294454", "ebabd3b41a342e5d4e3a432b282bdf88", "JSON");
             predictionCall.enqueue(new Callback<PredictionsCall>() {
                 @Override
@@ -73,7 +74,7 @@ public class PredictionsViewModel extends ViewModel {
         list.getPredictions().getPrediction().add(prediction);
         allPredictions.setValue(list);
 
-        Log.i("MDI", allPredictions.getValue().getPredictions().getPrediction().size() + " Predictions");
+//        Log.i("MDI", allPredictions.getValue().getPredictions().getPrediction().size() + " Predictions");
 //        for (Prediction prediction : allPredictions.getValue().getPredictions().getPrediction()) {
 //            Log.i("MDI", prediction.toString());
 //        }

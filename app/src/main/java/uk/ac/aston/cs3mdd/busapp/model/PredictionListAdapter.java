@@ -59,9 +59,7 @@ public class PredictionListAdapter extends
                 Duration d = Duration.between(LocalDateTime.now(), busTime);
                 StringBuilder sb = new StringBuilder();
                 sb.append("Expected Arrival: ");
-                if (d.toHours() > 0){
-                    sb.append(d.toHours() + " hour/s" + "\n");
-                }
+                Log.i("TIME", d.toString());
                 sb.append(d.toMinutes()  + " minutes");
                 sb.append(" ");
 

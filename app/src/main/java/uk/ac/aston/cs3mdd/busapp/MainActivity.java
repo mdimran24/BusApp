@@ -60,11 +60,12 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_search, R.id.navigation_notifications)
+        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(R.id.navigation_home, R.id.navigation_search, R.id.navigation_saved_stop)
                 .build();
+
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+
         NavigationUI.setupWithNavController(binding.navView, navController);
 
         if (ActivityCompat.checkSelfPermission(this,
@@ -80,13 +81,13 @@ public class MainActivity extends AppCompatActivity {
                                 Boolean coarseLocationGranted = result.getOrDefault(
                                         android.Manifest.permission.ACCESS_COARSE_LOCATION, false);
                                 if (fineLocationGranted != null && fineLocationGranted) {
-                                    Log.i(TAG, "Precise location access granted.");
+//                                    Log.i(TAG, "Precise location access granted.");
                                     getLastLocation();
                                 } else if (coarseLocationGranted != null && coarseLocationGranted) {
-                                    Log.i(TAG, "Only approximate location access granted.");
+//                                    Log.i(TAG, "Only approximate location access granted.");
                                     getLastLocation();
                                 } else {
-                                    Log.i(TAG, "No location access granted.");
+//                                    Log.i(TAG, "No location access granted.");
                                 }
                             }
                     );
@@ -95,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
                     android.Manifest.permission.ACCESS_COARSE_LOCATION
             });
         } else {
-            Log.i(TAG, "Location permissions already granted.");
+//            Log.i(TAG, "Location permissions already granted.");
             getLastLocation();
         }
         locationCallback = new LocationCallback() {

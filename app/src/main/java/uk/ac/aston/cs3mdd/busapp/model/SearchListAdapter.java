@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.IOException;
@@ -19,6 +20,7 @@ import java.util.Locale;
 import uk.ac.aston.cs3mdd.busapp.MainActivity;
 import uk.ac.aston.cs3mdd.busapp.R;
 import uk.ac.aston.cs3mdd.busapp.model.SearchResponse.SearchMatch;
+import uk.ac.aston.cs3mdd.busapp.ui.search.SearchFragmentDirections;
 
 public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.SearchViewHolder> {
     private List<SearchMatch> mSearchList;
@@ -70,15 +72,26 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
     }
 
 
-    class SearchViewHolder extends RecyclerView.ViewHolder {
+
+
+    class SearchViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public final TextView usernameView;
         final SearchListAdapter mAdapter;
         public SearchMatch searchMatch;
 
         public SearchViewHolder(@NonNull View itemView, SearchListAdapter adapter) {
             super(itemView);
+            itemView.setOnClickListener(this);
             usernameView = itemView.findViewById(R.id.username);
             this.mAdapter = adapter;
+        }
+        @Override
+        public void onClick(View view) {
+            Log.i("MDI", "You clicked " + searchMatch.toString());
+            SearchFragmentDirections.ActionNavigationSearchToStopPointFragment action =
+                    SearchFragmentDirections.actionNavigationSearchToStopPointFragment(null, searchMatch);
+            Navigation.findNavController(view)
+                    .navigate(action);
         }
     }
 }

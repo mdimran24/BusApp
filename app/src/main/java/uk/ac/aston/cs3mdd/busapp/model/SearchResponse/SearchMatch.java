@@ -3,7 +3,9 @@ package uk.ac.aston.cs3mdd.busapp.model.SearchResponse;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class SearchMatch {
+import java.io.Serializable;
+
+public class SearchMatch implements Serializable {
 
     @SerializedName("Id")
     @Expose

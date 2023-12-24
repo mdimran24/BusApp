@@ -10,11 +10,13 @@ import androidx.lifecycle.ViewModel;
 import com.google.android.gms.location.FusedLocationProviderClient;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import uk.ac.aston.cs3mdd.busapp.model.LocationViewModel;
+import uk.ac.aston.cs3mdd.busapp.model.Prediction.Prediction;
 import uk.ac.aston.cs3mdd.busapp.model.StopPoint.StopPointsResponse;
 import uk.ac.aston.cs3mdd.busapp.service.StopRepository;
 
@@ -60,11 +62,14 @@ public class StopPointViewModel extends ViewModel {
         }
     }
     public void addAll(StopPointsResponseCall list) {
+        Lines lines = new Lines();
+        lines.setIdentifier(new ArrayList<>());
+        StopPoint stopPoint = new StopPoint();
+        stopPoint.setCommonName("No Further Bus Stops At The Moment");
+        stopPoint.setLines(lines);
+        list.getStopPointsResponse().getStopPoints().getStopPoint().add(stopPoint);
             allStops.setValue(list);
 
-//        Log.i("MDI", "Printing " + allStops.getValue().getStopPointsResponse().getTotal() + " Stops");
-//        for (StopPoint stop : allStops.getValue().getStopPointsResponse().getStopPoints().getStopPoint()) {
-//            Log.i("MDI", stop.toString());
-//        }
+
     }
 }

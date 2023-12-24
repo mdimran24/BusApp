@@ -3,9 +3,10 @@ package uk.ac.aston.cs3mdd.busapp.model.SearchResponse;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Matches {
+public class Matches implements Serializable {
     @SerializedName("SearchMatch")
     @Expose
     private List<SearchMatch> searchMatch;

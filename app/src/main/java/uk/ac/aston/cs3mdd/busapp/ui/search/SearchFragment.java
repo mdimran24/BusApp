@@ -47,9 +47,14 @@ public class SearchFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private SearchListAdapter mAdapter;
 
+    private TextView textView;
+
+
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         viewModel = new ViewModelProvider(requireActivity()).get(SearchViewModel.class);
         binding = FragmentSearchBinding.inflate(inflater, container, false);
+        textView = binding.textSearch;
+//        textView.setVisibility(View.INVISIBLE);
         searchList = new ArrayList<>();
         return binding.getRoot();
 
@@ -66,32 +71,39 @@ public class SearchFragment extends Fragment {
         // Give the RecyclerView a default layout manager.
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.buttonSecond.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
+                searchList = new ArrayList<>();
                 query = binding.searchText.getText().toString();
-                Log.i("MDI", "Searched: " + query);
+                if(!query.isEmpty()) {
+                    textView.setVisibility(View.VISIBLE);
+                    textView.setText("Searching");
+                    final Observer<SearchResponseCall> searchListObserver = new Observer<SearchResponseCall>() {
+                        @Override
+                        public void onChanged(@Nullable final SearchResponseCall searchResponseCall) {
+                            searchList.addAll(searchResponseCall.getSearchResponse().getMatches().getSearchMatch());
+                            searchList.removeIf(spr -> (spr.getId().isEmpty()));
+                            mAdapter.updateData(searchList);
+                            if(searchList.size() == 0) {
+                                textView.setVisibility(View.VISIBLE);
+                                textView.setText("No Bus Stops Found, Please Amend Search");
+                            }else{
+                                textView.setVisibility(View.INVISIBLE);
+                            }
+                        }
+                    };
+                    Retrofit retrofit = new Retrofit.Builder()
+                            .baseUrl("http://api.tfwm.org.uk/")
+                            .addConverterFactory(GsonConverterFactory.create())
+                            .build();
 
-                final Observer<SearchResponseCall> searchListObserver = new Observer<SearchResponseCall>() {
-                    @Override
-                    public void onChanged(@Nullable final SearchResponseCall searchResponseCall) {
-                        searchList.addAll(searchResponseCall.getSearchResponse().getMatches().getSearchMatch());
-                        searchList.removeIf(spr -> (spr.getId().isEmpty()));
-                        mAdapter.updateData(searchList);
-                    }
-                };
-                Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl("http://api.tfwm.org.uk/")
-                        .addConverterFactory(GsonConverterFactory.create())
-                        .build();
+                    TFWM service = retrofit.create(TFWM.class);
+                    viewModel.requestSearchResults(new SearchRepository(service), query);
+                    viewModel.getAllSearches().observe(getViewLifecycleOwner(), searchListObserver);
 
-                TFWM service = retrofit.create(TFWM.class);
-
-
-                viewModel.requestSearchResults(new SearchRepository(service), query);
-                viewModel.getAllSearches().observe(getViewLifecycleOwner(), searchListObserver);
+                }
             }
-
-
         });
 
     }
