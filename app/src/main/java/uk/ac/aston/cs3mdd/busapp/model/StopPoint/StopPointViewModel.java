@@ -39,8 +39,8 @@ public class StopPointViewModel extends ViewModel {
     public void requestStops(StopRepository stopRepository, Location loc) {
         if (allStops.getValue() == null){
 
-          Call<StopPointsResponseCall> stopCall = stopRepository.getListOfStops(-1.846744, 52.465247, "NaptanMarkedPoint", "b9294454", "ebabd3b41a342e5d4e3a432b282bdf88", "JSON");
-//            Call<StopPointsResponseCall> stopCall = stopRepository.getListOfStops(loc.getLongitude(), loc.getLatitude(),  "NaptanMarkedPoint", "b9294454", "ebabd3b41a342e5d4e3a432b282bdf88", "JSON");
+//          Call<StopPointsResponseCall> stopCall = stopRepository.getListOfStops(-1.846744, 52.465247, "NaptanMarkedPoint", "b9294454", "ebabd3b41a342e5d4e3a432b282bdf88", "JSON");
+            Call<StopPointsResponseCall> stopCall = stopRepository.getListOfStops(loc.getLongitude(), loc.getLatitude(),  "NaptanMarkedPoint", "b9294454", "ebabd3b41a342e5d4e3a432b282bdf88", "JSON");
             stopCall.enqueue(new Callback<StopPointsResponseCall>() {
                 @Override
                 public void onResponse(Call<StopPointsResponseCall> call, Response<StopPointsResponseCall> response) {

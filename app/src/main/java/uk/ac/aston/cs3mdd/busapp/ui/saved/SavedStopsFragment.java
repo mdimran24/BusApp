@@ -28,9 +28,13 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -41,7 +45,9 @@ import uk.ac.aston.cs3mdd.busapp.MainActivity;
 import uk.ac.aston.cs3mdd.busapp.Module;
 import uk.ac.aston.cs3mdd.busapp.R;
 import uk.ac.aston.cs3mdd.busapp.databinding.FragmentHomeBinding;
+import uk.ac.aston.cs3mdd.busapp.databinding.FragmentNotificationsBinding;
 import uk.ac.aston.cs3mdd.busapp.model.LocationViewModel;
+import uk.ac.aston.cs3mdd.busapp.model.Prediction.Prediction;
 import uk.ac.aston.cs3mdd.busapp.model.SavedStopListAdapter;
 import uk.ac.aston.cs3mdd.busapp.model.StopListAdapter;
 import uk.ac.aston.cs3mdd.busapp.model.StopPoint.StopPoint;
@@ -53,13 +59,13 @@ import uk.ac.aston.cs3mdd.busapp.service.TFWM;
 public class SavedStopsFragment extends Fragment {
 
     private LocationViewModel locModel;
-    private FragmentHomeBinding binding;
+    private FragmentNotificationsBinding binding;
     private StopPointViewModel viewModel;
     private RecyclerView mRecyclerView;
     private SavedStopListAdapter mAdapter;
     private TextView textView;
     private ArrayList<String> stops;
-
+    private String query;
     private ArrayList<StopPoint> savedStopPoints;
 
 
@@ -68,9 +74,9 @@ public class SavedStopsFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         viewModel = new ViewModelProvider(requireActivity()).get(StopPointViewModel.class);
-        binding = FragmentHomeBinding.inflate(inflater, container, false);
+        binding = FragmentNotificationsBinding.inflate(inflater, container, false);
         stops = new ArrayList<>();
-        textView = binding.textHome;
+        textView = binding.textSearch;
         savedStopPoints = new ArrayList<>();
 
         return binding.getRoot();
@@ -82,8 +88,6 @@ public class SavedStopsFragment extends Fragment {
 
         String filename = "savedStops";
         File file = new File(getContext().getFilesDir(), filename);
-
-
 
         FileInputStream fis = null;
         try {
@@ -128,6 +132,35 @@ public class SavedStopsFragment extends Fragment {
         }else{
             textView.setVisibility(View.INVISIBLE);
         }
+
+
+        binding.buttonSecond.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                query = binding.searchText.getText().toString();
+                ArrayList<StopPoint> searchedSavedStops = new ArrayList<>();
+                if(true) {
+                    textView.setVisibility(View.VISIBLE);
+                    textView.setText("Searching");
+
+                    for (StopPoint s : savedStopPoints) {
+                        if (s.getCommonName() != null) {
+                            if (s.getCommonName().toLowerCase().contains(query.toLowerCase())) {
+                                searchedSavedStops.add(s);
+                            }
+                        }
+                    }
+                    if(searchedSavedStops.size() == 0) {
+                        textView.setVisibility(View.VISIBLE);
+                        textView.setText("No Bus Stops Found, Please Amend Search");
+                    }else{
+                        textView.setVisibility(View.INVISIBLE);
+                        mAdapter.updateData(searchedSavedStops);
+                    }
+                }
+                Log.i("MDI Saved Search", savedStopPoints.toString());
+        }
+});
 
         // Get a handle to the RecyclerView.
         mRecyclerView = view.findViewById(R.id.recyclerview);

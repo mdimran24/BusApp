@@ -10,7 +10,7 @@
         android:id="@+id/linearLayout2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/border"
+
         android:orientation="vertical"
         android:padding="6dp"
         android:weightSum="3"
@@ -27,6 +27,7 @@
             android:layout_marginRight="5dp"
             android:lines="1"
             android:maxLines="1"
+            android:hint="Search By Common Name"
             android:inputType="text"/>
 
         <Button
@@ -36,15 +37,6 @@
             android:layout_margin="6dp"
             android:layout_gravity="right"
             android:text="Search" />
-
-
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingBottom="?attr/actionBarSize">
-        </androidx.recyclerview.widget.RecyclerView>
 
         <TextView
             android:id="@+id/text_search"
@@ -60,6 +52,15 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="?attr/actionBarSize">
+        </androidx.recyclerview.widget.RecyclerView>
+
+
 
     </LinearLayout>
 

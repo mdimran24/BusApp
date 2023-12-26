@@ -189,20 +189,20 @@ public class StopPointFragment extends Fragment implements OnMapReadyCallback {
 
             }
         });
-        binding.buttonSecond.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (searchMatch == null) {
-                    NavHostFragment.findNavController(StopPointFragment.this)
-                            .navigate(R.id.action_stopPointFragment_to_navigation_home);
-                }
-                if(stopPoint == null) {
-                    NavHostFragment.findNavController(StopPointFragment.this)
-                            .navigate(R.id.action_stopPointFragment_to_navigation_search);
-                }
-
-            }
-        });
+//        binding.buttonSecond.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if (searchMatch == null) {
+//                    NavHostFragment.findNavController(StopPointFragment.this)
+//                            .navigate(R.id.action_stopPointFragment_to_navigation_home);
+//                }
+//                if(stopPoint == null) {
+//                    NavHostFragment.findNavController(StopPointFragment.this)
+//                            .navigate(R.id.action_stopPointFragment_to_navigation_search);
+//                }
+//
+//            }
+//        });
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);

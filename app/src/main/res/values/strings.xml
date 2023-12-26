@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">BusApp</string>
+    <string name="app_name">Bus Tracker</string>
     <string name="title_home">Nearby Stops</string>
     <string name="title_search">Search</string>
     <string name="title_notifications">Saved Stops</string>
